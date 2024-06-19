@@ -1,11 +1,11 @@
 {
-    "name": "kaam_hiring_test",
-    "short_name": "kaam_hiring_test",
+    "name": "ToDone",
+    "short_name": "ToDone",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Your vibrant, dynamic partner in organizing and conquering your daily tasks with ease.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

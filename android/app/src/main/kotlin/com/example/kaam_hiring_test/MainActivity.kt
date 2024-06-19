@@ -1,4 +1,4 @@
-package com.example.kaam_hiring_test
+package in.alvish.kaamHiringTest
 
 import io.flutter.embedding.android.FlutterActivity
 
