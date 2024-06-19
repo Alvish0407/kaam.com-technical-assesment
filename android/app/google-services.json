@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "890709619749",
+    "project_id": "kaam-hiring-test",
+    "storage_bucket": "kaam-hiring-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890709619749:android:ce8c71d5eaccf72592fbcc",
+        "android_client_info": {
+          "package_name": "in.alvish.toDone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEUh0a2b1Dt_bTHxvNFKuh6bcn1X0ItaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
