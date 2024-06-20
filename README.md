@@ -1,10 +1,8 @@
 ### A Todo app _(ToDone)_ built with Flutter & Firebase
 
 <details>
-<summary>Assignment</summary>
+<summary>Assignment: To-Do List App</summary>
   
-**Assignment: To-Do List App**
-
 **Objective:** Build a simple yet functional To-Do List application using Flutter.
 
 **Task:** Develop a To-Do List application with the following features:
