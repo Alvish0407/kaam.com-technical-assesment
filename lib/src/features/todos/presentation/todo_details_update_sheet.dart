@@ -30,9 +30,7 @@ class TodoDetailsUpdateSheet extends HookConsumerWidget {
     Future<void> onUpdateTodo() async {
       if (formKey.currentState!.validate()) {
         try {
-          final updatedTodo = UpdateTodo(
-            id: todo.id!,
-          );
+          final updatedTodo = UpdateTodo(id: todo.id!);
           await ref.read(todosControllerProvider(uid: uid).notifier).updateTodo(updatedTodo);
           if (context.mounted) context.pop();
         } catch (err) {

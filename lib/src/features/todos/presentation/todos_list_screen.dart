@@ -27,13 +27,16 @@ class TodosListScreen extends ConsumerWidget {
           child: CircleAvatar(child: Image.asset(AppImages.memoji)),
         ),
         actions: [
-          IconButton(
-            color: context.colorScheme.error,
-            icon: const Icon(Icons.logout_outlined),
-            onPressed: () async {
-              final firebaseAuth = ref.read(firebaseAuthProvider);
-              await firebaseAuth.signOut();
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: Sizes.p8),
+            child: IconButton.filledTonal(
+              color: context.colorScheme.error,
+              icon: const Icon(Icons.logout_outlined),
+              onPressed: () async {
+                final firebaseAuth = ref.read(firebaseAuthProvider);
+                await firebaseAuth.signOut();
+              },
+            ),
           ),
         ],
       ),

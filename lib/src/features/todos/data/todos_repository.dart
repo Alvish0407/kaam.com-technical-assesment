@@ -36,7 +36,11 @@ class TodosRepository {
 
   // Read All
   Stream<List<Todo>> watchTodos({required String uid}) {
-    return _firestore.collection(todosPath(uid)).snapshots().map(
+    return _firestore
+        .collection(todosPath(uid))
+        .orderBy('created_on', descending: true)
+        .snapshots()
+        .map(
       (snapshot) {
         return snapshot.docs.map((doc) {
           return Todo.fromJson({
