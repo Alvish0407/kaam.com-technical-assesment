@@ -12,8 +12,8 @@ import '../../../utils/exception_handling.dart';
 import '../data/firebase_auth_repository.dart';
 import 'validations.dart';
 
-class SignInScreen extends HookConsumerWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends HookConsumerWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,13 +22,13 @@ class SignInScreen extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
 
-    Future<void> onSignIn() async {
+    Future<void> onSignUp() async {
       if (formKey.currentState!.validate()) {
         final email = emailController.text;
         final password = passwordController.text;
         try {
           final firebaseAuth = ref.read(firebaseAuthProvider);
-          await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+          await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
         } catch (e) {
           if (context.mounted) context.errorSnackBar(e.getErrorMessage());
         }
@@ -65,7 +65,7 @@ class SignInScreen extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Sign In",
+                          "Sign Up",
                           style: context.theme.textTheme.titleLarge?.semiBold,
                         ),
                         Text(
@@ -130,7 +130,7 @@ class SignInScreen extends HookConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
                     child: ElevatedButton(
-                      onPressed: onSignIn,
+                      onPressed: onSignUp,
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, Sizes.p48),
                         shape: RoundedRectangleBorder(
@@ -138,7 +138,7 @@ class SignInScreen extends HookConsumerWidget {
                         ),
                       ),
                       child: Text(
-                        "Sign In",
+                        "Sign Up",
                         style: context.theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: context.colorScheme.primary,
@@ -151,19 +151,19 @@ class SignInScreen extends HookConsumerWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Don't have an account? ",
+                          text: "Already have an account? ",
                           style: context.theme.textTheme.bodyMedium?.copyWith(
                             color: context.colorScheme.secondary,
                           ),
                         ),
                         TextSpan(
-                          text: "Sign Up",
+                          text: "Sign In",
                           style: context.theme.textTheme.bodyMedium?.copyWith(
                             color: context.colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => context.goNamed(AppRoute.signUp.name),
+                            ..onTap = () => context.goNamed(AppRoute.signIn.name),
                         ),
                       ],
                     ),
