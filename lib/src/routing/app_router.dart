@@ -8,23 +8,23 @@ import 'go_router_refresh_stream.dart';
 
 part 'app_router.g.dart';
 
-enum AppRoute { signIn, tasksList }
+enum AppRoute { signUp, signIn, tasksList }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @riverpod
 GoRouter goRouter(GoRouterRef ref) {
   // rebuild GoRouter when app startup state changes
-  final authRepository = ref.watch(authRepositoryProvider);
+  final firebaseAuth = ref.watch(firebaseAuthProvider);
   return GoRouter(
     initialLocation: '/signIn',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     refreshListenable: GoRouterRefreshStream(
-      authRepository.authStateChanges(),
+      firebaseAuth.authStateChanges(),
     ),
     redirect: (context, state) {
-      final isLoggedIn = authRepository.currentUser != null;
+      final isLoggedIn = firebaseAuth.currentUser != null;
       if (isLoggedIn) {
         return '/tasks';
       } else {
@@ -35,16 +35,17 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
         path: '/signIn',
         name: AppRoute.signIn.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: SigninScreen(),
-        ),
+        builder: (context, state) => const SigninScreen(),
+      ),
+      GoRoute(
+        path: '/signUp',
+        name: AppRoute.signUp.name,
+        builder: (context, state) => Container(),
       ),
       GoRoute(
         path: '/tasks',
         name: AppRoute.tasksList.name,
-        pageBuilder: (context, state) => NoTransitionPage(
-          child: Container(),
-        ),
+        builder: (context, state) => Container(),
       ),
     ],
   );
