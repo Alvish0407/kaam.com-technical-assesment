@@ -8,6 +8,7 @@ import '../../authentication/data/firebase_auth_repository.dart';
 import '../domain/add_todo.dart';
 import '../domain/todo.dart';
 import 'add_todo_sheet.dart';
+import 'todo_details_update_sheet.dart';
 import 'todos_controller.dart';
 
 class TodosListScreen extends ConsumerWidget {
@@ -37,37 +38,45 @@ class TodosListScreen extends ConsumerWidget {
         ],
       ),
       body: StreamBuilder<List<Todo>>(
-          stream: todosAsync.asStream(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            }
+        stream: todosAsync.asStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            final todos = snapshot.data!;
+          final todos = snapshot.data!;
 
-            return ListView.builder(
-              itemCount: todos.length,
-              itemBuilder: (context, index) {
-                final todo = todos[index];
-                return ListTile(
-                  title: Text(todo.title ?? '-'),
-                  subtitle: Text(todo.description ?? '-'),
-                  trailing: Checkbox(
-                    value: todo.status == TodoStatus.completed,
-                    onChanged: (value) {
-                      // ref.read(todosControllerProvider(uid: uid)).updateTodo(
-                      //   todo.copyWith(isDone: value!),
-                      // );
+          return ListView.builder(
+            itemCount: todos.length,
+            itemBuilder: (context, index) {
+              final todo = todos[index];
+
+              return ListTile(
+                title: Text(todo.title ?? '-'),
+                subtitle: Text(todo.description ?? '-'),
+                trailing: Checkbox(
+                  value: todo.status == TodoStatus.completed,
+                  onChanged: (value) {},
+                ),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useSafeArea: true,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return TodoDetailsUpdateSheet(todo: todo);
                     },
-                  ),
-                );
-              },
-            );
-          }),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(

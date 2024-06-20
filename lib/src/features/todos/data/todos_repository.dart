@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/add_todo.dart';
 import '../domain/todo.dart';
+import '../domain/update_todo.dart';
 
 part 'todos_repository.g.dart';
 
@@ -23,10 +24,9 @@ class TodosRepository {
   // Update
   Future<void> updateTodo({
     required String uid,
-    required AddTodo todo,
-    required String todoId,
+    required UpdateTodo todo,
   }) =>
-      _firestore.doc(todoPath(uid, todoId)).update(todo.toJson());
+      _firestore.doc(todoPath(uid, todo.id)).update(todo.toJson());
 
   // Delete
   Future<void> deletTodo({required String uid, required String todoId}) async {
@@ -34,11 +34,26 @@ class TodosRepository {
     await todoRef.delete();
   }
 
-  // Read
-  Stream<List<Todo>> watchTodos({required String uid}) => _firestore
-      .collection(todosPath(uid))
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+  // Read All
+  Stream<List<Todo>> watchTodos({required String uid}) {
+    return _firestore.collection(todosPath(uid)).snapshots().map(
+      (snapshot) {
+        return snapshot.docs.map((doc) {
+          return Todo.fromJson({
+            ...doc.data(),
+            ...{'id': doc.id}
+          });
+        }).toList();
+      },
+    );
+  }
+
+  // Read One
+  Future<Todo> getTodo({required String uid, required String todoId}) {
+    return _firestore.doc(todoPath(uid, todoId)).get().then(
+          (doc) => Todo.fromJson(doc.data()!),
+        );
+  }
 }
 
 @riverpod

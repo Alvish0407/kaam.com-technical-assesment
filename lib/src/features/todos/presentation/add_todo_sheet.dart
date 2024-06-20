@@ -53,10 +53,7 @@ class _AddTodoSheetState extends ConsumerState<AddTodoSheet> {
           );
           final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
           await ref.read(todosControllerProvider(uid: uid).notifier).addTodo(todo);
-          if (context.mounted) {
-            context.pop();
-            context.successSnackBar("Todo added");
-          }
+          if (context.mounted) context.pop();
         } catch (err) {
           if (context.mounted) context.errorSnackBar(err.getErrorMessage());
         }
@@ -76,11 +73,11 @@ class _AddTodoSheetState extends ConsumerState<AddTodoSheet> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  cursorHeight: 20,
+                  cursorHeight: 19,
                   focusNode: titleFocusNode,
                   controller: titleController,
                   textInputAction: TextInputAction.next,
-                  style: const TextStyle(fontSize: 20).semiBold,
+                  style: const TextStyle(fontSize: 19).semiBold,
                   decoration: InputDecoration(
                     filled: false,
                     isDense: true,
@@ -90,7 +87,7 @@ class _AddTodoSheetState extends ConsumerState<AddTodoSheet> {
                     focusedBorder: InputBorder.none,
                     focusedErrorBorder: InputBorder.none,
                     hintText: 'e.g., Renew gym every May 1',
-                    hintStyle: TextStyle(color: context.colorScheme.outline, fontSize: 20).semiBold,
+                    hintStyle: TextStyle(color: context.colorScheme.outline, fontSize: 19).semiBold,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -132,7 +129,7 @@ class _AddTodoSheetState extends ConsumerState<AddTodoSheet> {
                       showDatePicker(
                         context: context,
                         firstDate: DateTime.now(),
-                        initialDate: DateTime.now(),
+                        initialDate: dueDate.value,
                         lastDate: DateTime.now().add(const Duration(days: 365)),
                       ).then((value) {
                         if (value != null) {
