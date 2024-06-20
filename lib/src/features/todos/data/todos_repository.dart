@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/add_todo.dart';
+import '../domain/todo.dart';
+
+part 'todos_repository.g.dart';
 
 class TodosRepository {
   final FirebaseFirestore _firestore;
@@ -10,7 +14,7 @@ class TodosRepository {
   static String todosPath(String uid) => 'Users/$uid/todos';
 
   // Create
-  Future<void> addJob({
+  Future<void> addTodo({
     required String uid,
     required AddTodo todo,
   }) =>
@@ -30,7 +34,20 @@ class TodosRepository {
     await todoRef.delete();
   }
 
-  // Stream<List<Job>> watchJobs({required UserID uid}) => queryJobs(uid: uid)
-  //     .snapshots()
-  //     .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+  // Read
+  Stream<List<Todo>> watchTodos({required String uid}) => queryTodos(uid: uid)
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+
+  Query<Todo> queryTodos({required String uid}) =>
+      _firestore.collection(todosPath(uid)).withConverter(
+            fromFirestore: (snapshot, _) =>
+                Todo.fromJson(snapshot.data()!.putIfAbsent('id', () => snapshot.id)),
+            toFirestore: (todo, _) => todo.toJson(),
+          );
+}
+
+@riverpod
+TodosRepository todosRepository(TodosRepositoryRef ref) {
+  return TodosRepository(FirebaseFirestore.instance);
 }

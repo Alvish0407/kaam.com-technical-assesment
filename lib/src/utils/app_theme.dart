@@ -43,6 +43,11 @@ abstract class AppTheme {
       appBarTheme: AppBarTheme(
         titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black).bold,
       ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(Sizes.p16)),
+        ),
+      ),
     );
   }
 }

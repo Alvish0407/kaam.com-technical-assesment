@@ -7,6 +7,7 @@ part 'todo.g.dart';
 class Todo with _$Todo {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Todo({
+    String? id,
     String? title,
     String? status,
     DateTime? dueDate,

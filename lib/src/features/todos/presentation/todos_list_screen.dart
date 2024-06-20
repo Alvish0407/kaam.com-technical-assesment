@@ -5,6 +5,7 @@ import '../../../constants/app_sizes.dart';
 import '../../../utils/app_assets.dart';
 import '../../../utils/app_theme.dart';
 import '../../authentication/data/firebase_auth_repository.dart';
+import 'add_todo_sheet.dart';
 
 class TodosListScreen extends ConsumerWidget {
   const TodosListScreen({super.key});
@@ -30,7 +31,16 @@ class TodosListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            useSafeArea: true,
+            isScrollControlled: true,
+            builder: (context) {
+              return const AddTodoSheet();
+            },
+          );
+        },
         child: const Icon(Icons.add),
       ),
     );
