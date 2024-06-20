@@ -27,6 +27,8 @@ class TodoDetailsUpdateSheet extends HookConsumerWidget {
     final descriptionController = useTextEditingController(text: todo.description);
     final dueDate = useState<DateTime?>(todo.dueDate);
 
+    final isOverdue = todo.dueDate != null && todo.dueDate!.isBefore(DateTime.now());
+
     Future<void> onUpdateTodo() async {
       if (formKey.currentState!.validate()) {
         try {
@@ -81,8 +83,26 @@ class TodoDetailsUpdateSheet extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    if (isOverdue)
+                      Padding(
+                        padding: const EdgeInsets.only(left: Sizes.p16),
+                        child: Chip(
+                          padding: const EdgeInsets.all(Sizes.p4),
+                          side: BorderSide(color: context.colorScheme.onError),
+                          color: WidgetStatePropertyAll(
+                            context.colorScheme.error.withOpacity(.9),
+                          ),
+                          label: Text(
+                            'Overdue',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: context.colorScheme.onError,
+                            ),
+                          ),
+                        ),
+                      ),
+                    const Spacer(),
                     IconButton.filledTonal(
                       onPressed: onDeleteTodo,
                       color: context.colorScheme.error,
