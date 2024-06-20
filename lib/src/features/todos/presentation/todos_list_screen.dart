@@ -1,12 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants/app_sizes.dart';
 import '../../../utils/app_assets.dart';
 import '../../../utils/app_theme.dart';
+import '../../../utils/exception_handling.dart';
 import '../../authentication/data/firebase_auth_repository.dart';
 import '../domain/add_todo.dart';
 import '../domain/todo.dart';
+import '../domain/update_todo.dart';
 import 'add_todo_sheet.dart';
 import 'todo_details_update_sheet.dart';
 import 'todos_controller.dart';
@@ -53,28 +57,15 @@ class TodosListScreen extends ConsumerWidget {
 
           final todos = snapshot.data!;
 
-          return ListView.builder(
+          return ListView.separated(
             itemCount: todos.length,
             itemBuilder: (context, index) {
-              final todo = todos[index];
-
-              return ListTile(
-                title: Text(todo.title ?? '-'),
-                subtitle: Text(todo.description ?? '-'),
-                trailing: Checkbox(
-                  value: todo.status == TodoStatus.completed,
-                  onChanged: (value) {},
-                ),
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    useSafeArea: true,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return TodoDetailsUpdateSheet(todo: todo);
-                    },
-                  );
-                },
+              return TodoTile(todos[index]);
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(
+                indent: Sizes.p48,
+                color: context.colorScheme.onSurface.withOpacity(0.2),
               );
             },
           );
@@ -92,6 +83,133 @@ class TodosListScreen extends ConsumerWidget {
           );
         },
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class TodoTile extends ConsumerWidget {
+  final Todo todo;
+  const TodoTile(this.todo, {super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isCompleted = todo.status == TodoStatus.completed;
+
+    Future<void> onUpdateStatus(TodoStatus newStatus) async {
+      try {
+        final updatedTodo = UpdateTodo(id: todo.id!, status: newStatus);
+
+        final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+        await ref.read(todosControllerProvider(uid: uid).notifier).updateTodo(updatedTodo);
+      } catch (err) {
+        if (context.mounted) context.errorSnackBar(err.getErrorMessage());
+      }
+    }
+
+    Color getCompletedColor(Color color) {
+      return isCompleted ? context.colorScheme.outline.withOpacity(0.5) : color;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          useSafeArea: true,
+          isScrollControlled: true,
+          builder: (context) {
+            return TodoDetailsUpdateSheet(todo: todo);
+          },
+        );
+      },
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              switch (todo.status) {
+                TodoStatus.completed => IconButton(
+                    onPressed: () {
+                      onUpdateStatus(TodoStatus.pending);
+                    },
+                    color: context.colorScheme.primary,
+                    icon: const Icon(
+                      CupertinoIcons.check_mark_circled_solid,
+                    ),
+                  ),
+                TodoStatus.pending || _ => IconButton(
+                    onPressed: () {
+                      onUpdateStatus(TodoStatus.completed);
+                    },
+                    icon: Icon(
+                      CupertinoIcons.circle,
+                      color: context.colorScheme.secondary,
+                    ),
+                  ),
+              },
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      todo.title ?? '-',
+                      style: context.theme.textTheme.titleMedium?.copyWith(
+                        decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                      ),
+                    ),
+                    Text(
+                      todo.description ?? '-',
+                      style: context.theme.textTheme.titleSmall?.copyWith(
+                        color: getCompletedColor(context.colorScheme.onSurface.withOpacity(0.5)),
+                      ),
+                    ),
+                    gapH4,
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              CupertinoIcons.calendar_today,
+                              size: 16,
+                              color: getCompletedColor(context.colorScheme.primary),
+                            ),
+                            gapW4,
+                            Text(
+                              DateFormat.MMMd().format(todo.createdOn!),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: getCompletedColor(context.colorScheme.primary),
+                              ),
+                            ),
+                          ],
+                        ),
+                        gapW12,
+                        if (todo.dueDate != null)
+                          Row(
+                            children: [
+                              Icon(
+                                CupertinoIcons.calendar_today,
+                                size: 16,
+                                color: getCompletedColor(context.colorScheme.error),
+                              ),
+                              gapW4,
+                              Text(
+                                "Due on ${DateFormat.MMMd().format(todo.dueDate!)}",
+                                style: TextStyle(
+                                  color: getCompletedColor(context.colorScheme.error),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

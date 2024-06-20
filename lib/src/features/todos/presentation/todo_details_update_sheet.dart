@@ -32,7 +32,12 @@ class TodoDetailsUpdateSheet extends HookConsumerWidget {
     Future<void> onUpdateTodo() async {
       if (formKey.currentState!.validate()) {
         try {
-          final updatedTodo = UpdateTodo(id: todo.id!);
+          final updatedTodo = UpdateTodo(
+            id: todo.id!,
+            dueDate: dueDate.value,
+            title: titleController.text,
+            description: descriptionController.text,
+          );
           await ref.read(todosControllerProvider(uid: uid).notifier).updateTodo(updatedTodo);
           if (context.mounted) context.pop();
         } catch (err) {
@@ -271,7 +276,7 @@ class TodoDetailsUpdateSheet extends HookConsumerWidget {
                         dueDate.value == null
                             ? 'Due date'
                             : DateFormat.MMMd().format(dueDate.value!),
-                        style: TextStyle(color: context.colorScheme.outline, fontSize: 13),
+                        style: TextStyle(color: context.colorScheme.outline, fontSize: 15),
                       ),
                     ),
                   ),
