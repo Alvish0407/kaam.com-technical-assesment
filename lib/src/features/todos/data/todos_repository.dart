@@ -35,16 +35,10 @@ class TodosRepository {
   }
 
   // Read
-  Stream<List<Todo>> watchTodos({required String uid}) => queryTodos(uid: uid)
+  Stream<List<Todo>> watchTodos({required String uid}) => _firestore
+      .collection(todosPath(uid))
       .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
-
-  Query<Todo> queryTodos({required String uid}) =>
-      _firestore.collection(todosPath(uid)).withConverter(
-            fromFirestore: (snapshot, _) =>
-                Todo.fromJson(snapshot.data()!.putIfAbsent('id', () => snapshot.id)),
-            toFirestore: (todo, _) => todo.toJson(),
-          );
+      .map((snapshot) => snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
 }
 
 @riverpod
