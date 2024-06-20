@@ -40,6 +40,9 @@ abstract class AppTheme {
           borderSide: const BorderSide(color: Color(0x80C32033)),
         ),
       ),
+      appBarTheme: AppBarTheme(
+        titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black).bold,
+      ),
     );
   }
 }

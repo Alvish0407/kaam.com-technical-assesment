@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../features/authentication/data/firebase_auth_repository.dart';
 import '../features/authentication/presentation/signin_screen.dart';
 import '../features/authentication/presentation/signup_screen.dart';
+import '../features/todos/presentation/todos_list_screen.dart';
 import 'go_router_refresh_stream.dart';
 
 part 'app_router.g.dart';
@@ -52,7 +53,7 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
         path: '/todos',
         name: AppRoute.todosList.name,
-        builder: (context, state) => Container(),
+        builder: (context, state) => const TodosListScreen(),
       ),
     ],
   );
