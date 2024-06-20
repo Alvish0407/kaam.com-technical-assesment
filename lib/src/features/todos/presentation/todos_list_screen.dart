@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -60,7 +61,10 @@ class TodosListScreen extends ConsumerWidget {
           return ListView.separated(
             itemCount: todos.length,
             itemBuilder: (context, index) {
-              return TodoTile(todos[index]);
+              return TodoTile(todos[index]).animate().fade(
+                    duration: 250.ms,
+                    delay: 50.ms * index,
+                  );
             },
             separatorBuilder: (BuildContext context, int index) {
               return Divider(
