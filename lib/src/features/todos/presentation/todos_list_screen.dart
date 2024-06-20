@@ -58,21 +58,27 @@ class TodosListScreen extends ConsumerWidget {
 
           final todos = snapshot.data!;
 
-          return ListView.separated(
-            itemCount: todos.length,
-            itemBuilder: (context, index) {
-              return TodoTile(todos[index]).animate().fade(
-                    duration: 250.ms,
-                    delay: 50.ms * index,
-                  );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                indent: Sizes.p48,
-                color: context.colorScheme.onSurface.withOpacity(0.2),
-              );
-            },
-          );
+          return todos.isEmpty
+              ? Image.asset(
+                  AppImages.illustrator,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                )
+              : ListView.separated(
+                  itemCount: todos.length,
+                  itemBuilder: (context, index) {
+                    return TodoTile(todos[index]).animate().fade(
+                          duration: 250.ms,
+                          delay: 50.ms * index,
+                        );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      indent: Sizes.p48,
+                      color: context.colorScheme.onSurface.withOpacity(0.2),
+                    );
+                  },
+                );
         },
       ),
       floatingActionButton: FloatingActionButton(
