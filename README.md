@@ -1,5 +1,49 @@
 ### A Todo app _(ToDone)_ built with Flutter & Firebase
 
+<details>
+<summary>Assignment</summary>
+  
+**Assignment: To-Do List App**
+
+**Objective:** Build a simple yet functional To-Do List application using Flutter.
+
+**Task:** Develop a To-Do List application with the following features:
+
+**User Authentication:**
+1. Implement user login and registration using Firebase Authentication.
+2. Use email and password as the login method.
+3. Include basic form validation (e.g., email format, password strength).
+
+**To-Do List:**
+1. Allow authenticated users to create, read, update, and delete to-do items.
+2. Each to-do item should have a title, description, due date, and completion status.
+3. Store to-do items in Firebase Firestore, associating them with the logged-in user.
+
+**State Management:**
+1. Use a state management solution such as Provider, Riverpod, or Bloc.
+2. Justify your choice in the README file.
+
+**UI/UX:**
+1. Design a clean, user-friendly interface.
+2. Ensure the app is responsive and works on both Android and iOS devices.
+3. Include basic animations for transitions and status changes.
+
+**Technical Requirements:**
+1. Use the latest version of Flutter and Dart.
+2. Implement asynchronous programming and error handling.
+3. Follow best practices for clean and maintainable code.
+
+### Deliverables
+**Flutter Project:**
+1. Host the project in a public Git repository (e.g., GitHub, GitLab).
+2. Include a README file with setup instructions, state management justification, and any additional notes or assumptions.
+
+**Video Demonstration:**
+1. Record a short video (2-3 minutes) demonstrating the functionality of the app.
+2. Showcase the user authentication flow, to-do list management, and any animations.
+
+</details>
+
 ## Prerequisite
 1. Download [fvm](https://fvm.app/) and follow the [instructions](https://fvm.app/documentation/guides/basic-commands#examples-1)
 2. [Setup](https://github.com/Alvish0407/kaam-hiring-test/blob/main/README.md#running-the-project-with-firebase) Firebase Project
