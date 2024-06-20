@@ -112,6 +112,7 @@ class TodoTile extends ConsumerWidget {
     }
 
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         showModalBottomSheet(
           context: context,
@@ -196,8 +197,8 @@ class TodoTile extends ConsumerWidget {
                               Text(
                                 "Due on ${DateFormat.MMMd().format(todo.dueDate!)}",
                                 style: TextStyle(
-                                  color: getCompletedColor(context.colorScheme.error),
                                   fontSize: 12,
+                                  color: getCompletedColor(context.colorScheme.error),
                                 ),
                               ),
                             ],
