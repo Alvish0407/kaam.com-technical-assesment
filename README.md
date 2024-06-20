@@ -2,7 +2,7 @@
 
 ## Prerequisite
 1. Download [fvm](https://fvm.app/) and follow the [instructions](https://fvm.app/documentation/guides/basic-commands#examples-1)
-2. [Setup](https://github.com/Alvish0407/kaam-hiring-test/edit/main/README.md#running-the-project-with-firebase) Firebase Project
+2. [Setup](https://github.com/Alvish0407/kaam-hiring-test/blob/main/README.md#running-the-project-with-firebase) Firebase Project
 
 ## Features
 
