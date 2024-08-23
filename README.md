@@ -1,4 +1,4 @@
-### A Todo app _(ToDone)_ built with Flutter & Firebase
+### A Todo app _(ToDone)_ built with Flutter & Firebase within 8 Hours
 
 https://github.com/Alvish0407/kaam-hiring-test/assets/80829856/6e3f2c8a-1775-4069-8e25-c1ca2cac9263
 
